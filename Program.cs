@@ -13,9 +13,19 @@ namespace WebApiClient
 
         static async Task Main(string[] args)
         {
-            await ProcessRepositories();
+            var repositories = await ProcessRepositories();
+
+            foreach (var repo in repositories)
+            {
+                Console.WriteLine(repo.Name);
+                Console.WriteLine(repo.Description);
+                Console.WriteLine(repo.GitHubHomeUrl);
+                Console.WriteLine(repo.Homepage);
+                Console.WriteLine(repo.Watchers);
+                Console.WriteLine();
+            }
         }
-        private static async Task ProcessRepositories(){
+        private static async Task<List<Repository>> ProcessRepositories(){
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
@@ -23,10 +33,8 @@ namespace WebApiClient
 
             var streamTask = client.GetStreamAsync("https://api.github.com/orgs/dotnet/repos");
             var repositories = await JsonSerializer.DeserializeAsync<List<Repository>>(await streamTask);
-
-            foreach (var repo in repositories){
-                Console.WriteLine(repo.name);
-            }
+            return repositories;
+            
         }
     }
 }
