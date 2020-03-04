@@ -17,14 +17,25 @@ namespace WebApiClient
 
             foreach (var repo in repositories)
             {
-                Console.WriteLine(repo.Name);
-                Console.WriteLine(repo.Description);
+                Console.WriteLine(Testing(repo.Name));
+                Console.WriteLine(Testing(repo.Description));
                 Console.WriteLine(repo.GitHubHomeUrl);
                 Console.WriteLine(repo.Homepage);
                 Console.WriteLine(repo.Watchers);
+                Console.WriteLine(repo.LastPush);
                 Console.WriteLine();
             }
         }
+
+        public static string Testing(string item){
+            if(item == null){
+                return "**NOTHING ENTERED**";
+            }
+            else{
+                return item;
+            }
+        }
+
         private static async Task<List<Repository>> ProcessRepositories(){
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(

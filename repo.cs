@@ -1,5 +1,6 @@
 using System;
 using System.Text.Json.Serialization;
+using System.Globalization;
 
 namespace WebApiClient
 {
@@ -19,5 +20,11 @@ namespace WebApiClient
 
         [JsonPropertyName("watchers")]
         public int Watchers { get; set; }
+
+        [JsonPropertyName("pushed_at")]
+        public string JsonDate { get; set; }
+
+        public DateTime LastPush =>
+            DateTime.ParseExact(JsonDate, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
     }
 }
